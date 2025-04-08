@@ -1,0 +1,84 @@
+package gestion_de_recrutement;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class Equipe {
+    private int idEquipe;
+    private String nom;
+    private String description;
+    private int nombreMembres;
+    private Date dateCreation;
+    private Manager manager;
+    private List<String> listeMembres = new ArrayList<>();
+
+    public Equipe(int idEquipe, String nom, Manager manager) {
+        this.idEquipe = idEquipe;
+        this.nom = nom;
+        this.manager = manager;
+        this.dateCreation = new Date();
+    }
+
+    public int getIdEquipe() {
+        return idEquipe;
+    }
+
+    public void setIdEquipe(int idEquipe) {
+        this.idEquipe = idEquipe;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getNombreMembres() {
+        return nombreMembres;
+    }
+
+    public void setNombreMembres(int nombreMembres) {
+        this.nombreMembres = nombreMembres;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public void ajouterMembre(String nom) {
+        listeMembres.add(nom);
+        nombreMembres = listeMembres.size();
+    }
+
+    public void supprimerMembre(String nom) {
+        listeMembres.remove(nom);
+        nombreMembres = listeMembres.size();
+    }
+
+    public List<String> getListeMembres() {
+        return listeMembres;
+    }
+}
