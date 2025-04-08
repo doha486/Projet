@@ -1,0 +1,76 @@
+package gestion_de_recrutement;
+
+import java.util.Date;
+
+public class Projet {
+    private int idProjet;
+    private String nom;
+    private String description;
+    private Date dateDebut;
+    private Date dateFin;
+    private String statut;
+    private Equipe equipe;
+
+    public Projet(int idProjet, String nom, Equipe equipe) {
+        this.idProjet = idProjet;
+        this.nom = nom;
+        this.equipe = equipe;
+        this.dateDebut = new Date();
+    }
+
+    public int getIdProjet() {
+        return idProjet;
+    }
+
+    public void setIdProjet(int idProjet) {
+        this.idProjet = idProjet;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public Equipe getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(Equipe equipe) {
+        this.equipe = equipe;
+    }
+}
