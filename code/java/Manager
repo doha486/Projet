@@ -1,1 +1,29 @@
+package gestion_de_recrutement;
+
+public class Manager extends Personne {
+    private String departement;
+    private String equipe;
+
+    public Manager(int id, String nom, String email, String mdp, String departement, String equipe) {
+        super(id, nom, email, mdp);
+        this.departement = departement;
+        this.equipe = equipe;
+    }
+
+    public String getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(String departement) {
+        this.departement = departement;
+    }
+
+    public String getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(String equipe) {
+        this.equipe = equipe;
+    }
+}
 
