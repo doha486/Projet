@@ -1,0 +1,186 @@
+create database dbProjet;
+create table Manager (
+ IdManager int PRIMARY KEY AUTO_INCREMENT ,
+ NomManager varchar(255) ,
+ EmailManager varchar(255) UNIQUE ,
+ MdpManager varchar(255) ,
+ DepartementManager varchar(255) ,
+ Equipe varchar(255) 
+);
+
+create table Equipe (
+ IdEquipe int PRIMARY KEY AUTO_INCREMENT,
+ NomEquipe varchar(255) ,
+ descriptionEquipe varchar(255) ,
+ Nombremembre int,
+ DateCreationEquipe date ,
+ IdManager int,
+ foreign key(IdManager) references Manager(IdManager)
+);
+
+
+create table Projet (
+ IdProjet int PRIMARY KEY AUTO_INCREMENT,
+ NomProjet varchar(255) ,
+ DescriptionProjet TEXT ,
+ Date_debut date,
+ Date_fin date ,
+StatutProjet varchar(255) ,
+  IdEquipe int,
+ foreign key(IdEquipe) references Equipe(IdEquipe)
+);
+
+
+CREATE TABLE Recruteur (
+    IdRecruteur INT PRIMARY KEY AUTO_INCREMENT,
+    NomRecruteur VARCHAR(255),
+    DépartementRecruteur VARCHAR(255),
+    Poste VARCHAR(255),
+    EmailRecruteur VARCHAR(255),
+    MdpRecruteur VARCHAR(255)
+);
+CREATE TABLE Offre (
+    IdOffre INT PRIMARY KEY AUTO_INCREMENT,
+    Titre VARCHAR(255),
+    DescriptionOffre TEXT,
+    DatePublication DATE,
+    IdRecruteur INT,
+    FOREIGN KEY (IdRecruteur) REFERENCES Recruteur(IdRecruteur)
+);
+CREATE TABLE Candidat (
+    IdCandidat INT PRIMARY KEY AUTO_INCREMENT,
+    NomCandidat VARCHAR(255),
+    EmailCandidat VARCHAR(255) UNIQUE,
+    MdpCandidat VARCHAR(255),
+    Telephone INT,
+    Profil TEXT,
+    CV TEXT,
+    Adresse TEXT
+);
+CREATE TABLE Offre_Candidat (
+    IdOffre INT,
+    IdCandidat INT,
+    PRIMARY KEY (IdOffre, IdCandidat),
+    FOREIGN KEY (IdOffre) REFERENCES Offre(IdOffre),
+    FOREIGN KEY (IdCandidat) REFERENCES Candidat(IdCandidat)
+);
+CREATE TABLE Candidature (
+    IdCandidature INT PRIMARY KEY AUTO_INCREMENT,
+    StatutCandidature VARCHAR(50),
+    DateSoumission DATE,
+    IdCandidat INT,
+    FOREIGN KEY (IdCandidat) REFERENCES Candidat(IdCandidat)
+);
+CREATE TABLE Entretien (
+    IdEntretien INT PRIMARY KEY AUTO_INCREMENT,
+    Date DATE,
+    Heure TIME,
+    Lieu VARCHAR(255),
+    IdCandidature INT,
+    IdRecruteur INT,
+    FOREIGN KEY (IdCandidature) REFERENCES Candidature(IdCandidature),
+    FOREIGN KEY (IdRecruteur) REFERENCES Recruteur (IdRecruteur)
+);
+
+CREATE TABLE Admin (
+    IdAdmin INT PRIMARY KEY AUTO_INCREMENT,
+    NomAdmin VARCHAR(255),
+    EmailAdmin VARCHAR(255) UNIQUE,
+    MdpAdmin VARCHAR(255),
+    Rôle VARCHAR(100)
+);
+
+-- Création de la table Compte
+CREATE TABLE Compte (
+    IdCompte INT PRIMARY KEY AUTO_INCREMENT,
+    NomUtilisateur VARCHAR(255),
+    EmailCpmpte VARCHAR(255) UNIQUE,
+    MdpCompte VARCHAR(255),
+    DateCreation DATE,
+    StatutCompte VARCHAR(100),
+    IdAdmin INT,
+    FOREIGN KEY (IdAdmin) REFERENCES Admin(IdAdmin) ON DELETE SET NULL
+);
+
+-- Insérer des managers
+INSERT INTO Manager (IdManager, NomManager, EmailManager, MdpManager, Departement, Equipe) 
+VALUES 
+(1, 'AA', 'AA.PP@example.com', 'mdp123', 'Informatique', 'Développement'),
+(2, 'OO', 'OO.LL@example.com', 'mdp456', 'Marketing', 'Communication');
+
+-- Insérer des équipes
+INSERT INTO Equipe (IdEquipe, NomEquipe, description_, Nombre_Membre, Date_Creation, IdManager) 
+VALUES 
+(1, 'Développement Web', 'Équipe responsable du développement des applications web.', 5, '2023-05-10', 1),
+(2, 'Communication Digitale', 'Équipe en charge de la stratégie digitale.', 3, '2024-01-15', 2);
+
+-- Insérer des projets
+INSERT INTO Projet (IdProjet, NomProjet, Description_, Date_Debut, Date_Fin, Statut, IdEquipe) 
+VALUES 
+(1, 'Site e-commerce', 'Développement d’une plateforme e-commerce.', '2024-02-01', '2024-06-01', 'En cours', 1),
+(2, 'Campagne SEO', 'Optimisation du référencement naturel.', '2024-03-01', '2024-05-01', 'Planifié', 2) ;
+
+
+-- Insérer des recruteurs
+INSERT INTO Recruteur (NomRecruteur, Département, Poste) 
+VALUES 
+('Alice Dupont', 'Ressources Humaines', 'Responsable RH'),
+('Jean Martin', 'Informatique', 'Chef de projet'),
+('Sophie Bernard', 'Marketing', 'Manager Communication');
+
+-- Insérer des offres
+INSERT INTO Offre (Titre, Description, DatePublication, IdRecruteur) 
+VALUES 
+('Développeur Web', 'Nous recherchons un développeur web expérimenté.', '2025-03-01', 2),
+('Graphiste', 'Création de visuels pour nos campagnes marketing.', '2025-03-05', 3),
+('Consultant RH', 'Accompagnement dans le recrutement et la gestion des talents.', '2025-03-10', 1);
+
+-- Insérer des candidats
+INSERT INTO Candidat (NomCandidat, EmailCandidat, MdpCandidat, Telephone, Profil, CV, Adresse) 
+VALUES 
+('Pierre Durand', 'pierre.durand@example.com', 'mdp123', '0654321897', 'Développeur Full Stack', 'CV_Pierre.pdf', '12 rue des Lilas, Paris'),
+('Laura Morel', 'laura.morel@example.com', 'mdp456', '0612345678', 'Graphiste UX/UI', 'CV_Laura.pdf', '45 avenue de Lyon, Lyon'),
+('Mohamed Ali', 'mohamed.ali@example.com', 'mdp789', '0678901234', 'Consultant RH', 'CV_Mohamed.pdf', '78 boulevard Haussmann, Paris');
+
+-- Associer des candidats à des offres
+INSERT INTO Offre_Candidat (IdOffre, IdCandidat) 
+VALUES 
+(1, 1), -- Pierre postule pour Développeur Web
+(2, 2), -- Laura postule pour Graphiste
+(3, 3); -- Mohamed postule pour Consultant RH
+
+-- Insérer des candidatures
+INSERT INTO Candidature (Statut, DateSoumission, IdCandidat) 
+VALUES 
+('En attente', '2025-03-02', 1),
+('Acceptée', '2025-03-06', 2),
+('Refusée', '2025-03-11', 3);
+
+-- Insérer des entretiens
+INSERT INTO Entretien (Date, Heure, Lieu, IdCandidature) 
+VALUES 
+('2025-03-05', '10:00:00', 'Siège social - Salle A', 1),
+('2025-03-08', '14:30:00', 'Agence de Lyon', 2);
+
+INSERT INTO Admin (NomAdmin, EmailAdmin, MdpAdmin, Rôle) 
+VALUES 
+('Alice Dupont', 'alice.dupont@example.com', 'pass123', 'Super Admin'),
+('Jean Martin', 'jean.martin@example.com', 'admin456', 'Gestionnaire');
+
+-- Insertion des données dans Compte
+INSERT INTO Compte (NomUtilisateur, Email, MdpCompte, DateCreation, Statut, IdAdmin) 
+VALUES 
+('Utilisateur1', 'user1@example.com', 'userpass1', '2025-03-01', 'Actif', 1),
+('Utilisateur2', 'user2@example.com', 'userpass2', '2025-03-05', 'Inactif', 1),
+('Utilisateur3', 'user3@example.com', 'userpass3', '2025-03-10', 'Actif', 2);
+
+
+SELECT * FROM Manager;
+SELECT * FROM Equipe;
+SELECT * FROM Projet;
+SELECT * FROM Candidat;
+SELECT * FROM Entretien;
+SELECT * FROM Candidature;
+SELECT * FROM Offre_Candidat;
+SELECT * FROM Admin;
+SELECT * FROM Compte;
